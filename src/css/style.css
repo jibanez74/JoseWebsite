@@ -1,0 +1,19 @@
+.bg-black {
+  color: white;
+  background: black; }
+
+header img {
+  margin-top: 20px; }
+
+header .port-item {
+  width: 30%; }
+  header .port-item .fa {
+    font-size: 2em; }
+
+header .port-item:hover {
+  opacity: 0.7;
+  cursor: pointer; }
+
+@media (min-width: 1199px) {
+  .port-item {
+    padding: 3em !important; } }
