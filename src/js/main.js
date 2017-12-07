@@ -45,16 +45,19 @@ function ajax_form () {
       data: 'name='+$("#name").val()+'&email='+$("#email").val()+'&message='+$("#message").val(),
       success: () => {
         $("#name, #email, #message").val("");
-        $("#alert-good").html(`
+        $("#alert-success").html(`
           <div class="alert alert-success text-center">
-            <h3> Your message was sent successfully!  I will get back to you as soon as possible. </h4>
+            <h4> Message Sent! </h4>
+            <p>
+              Thank you for taking the time to browse my website and writing me a message!  I will reply to you as soon as possible.
+            </p>
           </div>
         `);
       }
     });
     setTimeout(() => {
-      $("#alert-good").fadeOut("slow");
-    }, 7000);
+      $("#alert-success").slideUp();
+    }, 12000);
     return false;
   });
 }
