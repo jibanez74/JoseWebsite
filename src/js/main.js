@@ -4,8 +4,6 @@ $(document).ready(() => {
     $(".collapse").collapse("hide");
   });
 
-  ajax_form();
-
   //ajax call to github api
   $.ajax({
     url: 'https://api.github.com/users/jibanez74/repos',
@@ -35,29 +33,55 @@ $(document).ready(() => {
       `)
     });
   });
-});
 
-function ajax_form () {
-  $("#myForm").submit(() => {
-    $.ajax({
-      url: 'contact.php',
-      type: 'POST',
-      data: 'name='+$("#name").val()+'&email='+$("#email").val()+'&message='+$("#message").val(),
-      success: () => {
-        $("#name, #email, #message").val("");
-        $("#alert-success").html(`
-          <div class="alert alert-success text-center">
-            <h4> Message Sent! </h4>
-            <p>
-              Thank you for taking the time to browse my website and writing me a message!  I will reply to you as soon as possible.
-            </p>
-          </div>
-        `);
-      }
-    });
-    setTimeout(() => {
-      $("#alert-success").slideUp();
-    }, 12000);
-    return false;
+  //ajax form
+  $("#myForm").submit((e) => {
+    let valid_name;
+    let valid_email;
+    let valid_msg;
+    let filter_email = $("#email").val();
+
+    if ($("#name").val().length > 25 || $("#name").val().length < 2) {
+      $("#alert-name").slideDown();
+      valid_name = false;
+    } else {
+      valid_name= true;
+    }
+
+    if (/^\w+([\.-]?\ w+)*@\w+([\.-]?\ w+)*(\.\w{2,3})+$/.test(filter_email)) {
+      valid_email = true;
+    } else {
+      $("#alert-email").slideDown();
+      valid_email = false;
+    }
+
+    if ($("#message").val().length < 1) {
+      $("#alert-msg").slideDown();
+      valid_msg = false;
+    } else {
+      valid_msg = true;
+    }
+
+    if (valid_name === true && valid_email === true && valid_msg === true) {
+      $.ajax({
+        url: "contact.php",
+        type: "POST",
+        data: "name="+$('#name').val()+"&email="+$('#email').val()+"&message="+$('#message').val(),
+        success: () => {
+          $("#name, #email, #message").val("");
+          $("#alert-good").slideDown();
+        }
+      }).done(() => {
+        setTimeout(() => {
+          $("#alert-good").slideUp();
+        }, 10000);
+      });
+    } else {
+      setTimeout(() => {
+        $(".alert-danger").slideUp();
+      }, 10000);
+    }
+
+    e.preventDefault();
   });
-}
+});

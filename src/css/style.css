@@ -48,7 +48,7 @@ header .port-item:hover {
 .portfolio-box:hover .caption {
   opacity: 1; }
 
-#alert-good {
+.myAlert {
   display: none; }
 
 @media (min-width: 1199px) {

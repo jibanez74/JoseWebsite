@@ -4,27 +4,26 @@ function has_header_injection($str) {
   return preg_match( "/[\r\n]/", $str );
 }
 
-$formMsg = "";
+if (isset($_POST["name"]) && isset($_POST["message"]) && isset($_POST["email"])) {
+  $name = trim(htmlspecialchars($_POST['name']));
+  $email = trim(htmlspecialchars($_POST['email']));
+  $msg = htmlspecialchars($_POST['message']);
 
-if (!empty($_POST["name"]) && !empty($_POST["email"]) && !empty($_POST["message"])) {
-  $name = trim(htmlspecialchars($_POST["name"]));
-  $email = trim(htmlspecialchars($_POST["email"]));
-  $msg = htmlspecialchars($_POST["message"]);
-  
   if (
-    has_header_injection ($name) ||
-    has_header_injection ($email)
+    has_header_injection($name) ||
+    has_header_injection($email)
   ) {
     die ();
   }
-  
-  $to = "jibanez.romany74@gmail.com";
 
-  $subject = "<h2> $name has sent you an email </h2>";
+  $toJose = "jibanez.romany74@gmail.com";
+  $toMiguel = "miguelnoyac@gmail.com";
+
+  $subject = $name.'with email'.$email.'sent you a message';
 
   $message = "
-    <h4> Name: $name </h4>
-    <h4> Email: $email </h4>
+    <h4> $name </h4>
+    <h4> $email </h4>
     <p> $msg </p>
   ";
 
@@ -36,15 +35,7 @@ if (!empty($_POST["name"]) && !empty($_POST["email"]) && !empty($_POST["message"
 
   $message = wordwrap($message, 72);
 
-  mail(
-    $to,
-    $subject,
-    $message,
-    $headers
-  );
-
-  echo "<p> Your message was sent successfully! </p>";
-} else {
-  echo "<p> There was an error processing your message!  Please try again.  Make sure to fill in all fields with the correct information. </p>";
+  mail($toJose, $subject, $message, $headers);
+  mail($toMiguel, $subject, $message, $headers);
 }
 ?>
