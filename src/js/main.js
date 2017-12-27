@@ -48,7 +48,7 @@ $(document).ready(() => {
       valid_name= true;
     }
 
-    if (/^\w+([\.-]?\ w+)*@\w+([\.-]?\ w+)*(\.\w{2,3})+$/.test(filter_email)) {
+    if (validate_email(filter_email)) {
       valid_email = true;
     } else {
       $("#alert-email").slideDown();
@@ -85,3 +85,8 @@ $(document).ready(() => {
     e.preventDefault();
   });
 });
+
+function validate_email (email) {
+  const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(email);
+}
